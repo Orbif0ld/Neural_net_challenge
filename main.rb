@@ -2,7 +2,7 @@
 
 # some requirements
 require 'set'
-load 'neuro.rb'
+load './neuro.rb'
 
 # We will use the iris data set based which contains observations of 
 # flower petal and sepal size to predict the flower genus
@@ -70,6 +70,11 @@ y_hat = nn.predict(x_test)
 # prints the networks "accuracy" in predicting
 # the unseen test set. 
 cm = confusion_matrix(y_test, y_hat)
+
+def accuracy(cm)
+  (1.0*cm.trace)/cm.reduce(:+)
+end
+
 p "Confusion Matrix:" 
 p cm.to_s
 p "Accuracy: " + accuracy(cm).to_s

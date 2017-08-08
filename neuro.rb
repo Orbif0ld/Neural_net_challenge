@@ -49,45 +49,96 @@ class NeuralNetwork
 
           # declare some weights
 
-          w1A = Weight.new # weight of input 1 into neuron A
-          w2A = Weight.new
-          w3A = Weight.new
-          w4A = Weight.new
-          w1B = Weight.new
-          w2B = Weight.new
-          w3B = Weight.new
-          w4B = Weight.new
-          
-          wA = Weight.new  # threshold weight for neuron A
-          wAC = Weight.new # weight of connection from neuron A to neuron C
-          wAD = Weight.new
-          wB = Weight.new
-          wBC = Weight.new
-          wBD = Weight.new
-          
-          wC = Weight.new
-          wCE = Weight.new
-          wCF = Weight.new
-          wCG = Weight.new
-          wD = Weight.new
-          wDE = Weight.new
-          wDF = Weight.new
-          wDG = Weight.new
+          g = Random.new
 
-          wE = Weight.new
-          wF = Weight.new
-          wG = Weight.new
+          w1A = Weight.new(g.rand(-1..1)) # weight of input 1 into neuron A
+          w2A = Weight.new(g.rand(-1..1))
+          w3A = Weight.new(g.rand(-1..1))
+          w4A = Weight.new(g.rand(-1..1))
+          w1B = Weight.new(g.rand(-1..1))
+          w2B = Weight.new(g.rand(-1..1))
+          w3B = Weight.new(g.rand(-1..1))
+          w4B = Weight.new(g.rand(-1..1))
+          
+          wA = Weight.new(g.rand(-1..1))  # threshold weight for neuron A
+          wAC = Weight.new(g.rand(-1..1)) # weight of connection from neuron A to neuron C
+          wAD = Weight.new(g.rand(-1..1))
+          wB = Weight.new(g.rand(-1..1))
+          wBC = Weight.new(g.rand(-1..1))
+          wBD = Weight.new(g.rand(-1..1))
+          
+          wC = Weight.new(g.rand(-1..1))
+          wCE = Weight.new(g.rand(-1..1))
+          wCF = Weight.new(g.rand(-1..1))
+          wCG = Weight.new(g.rand(-1..1))
+          wD = Weight.new(g.rand(-1..1))
+          wDE = Weight.new(g.rand(-1..1))
+          wDF = Weight.new(g.rand(-1..1))
+          wDG = Weight.new(g.rand(-1..1))
+
+          wE = Weight.new(g.rand(-1..1))
+          wF = Weight.new(g.rand(-1..1))
+          wG = Weight.new(g.rand(-1..1))
+          
+          wH = Weight.new(g.rand(-1..1))
+          wAH = Weight.new(g.rand(-1..1))
+          wBH = Weight.new(g.rand(-1..1))
+          wHE = Weight.new(g.rand(-1..1))
+          wHF = Weight.new(g.rand(-1..1))
+          wHG = Weight.new(g.rand(-1..1))
+
+          wK = Weight.new(g.rand(-1..1))
+          w1K = Weight.new(g.rand(-1..1))
+          w2K = Weight.new(g.rand(-1..1))
+          w3K = Weight.new(g.rand(-1..1))
+          w4K = Weight.new(g.rand(-1..1))
+          wKD = Weight.new(g.rand(-1..1))
+          wKH = Weight.new(g.rand(-1..1))
+          wKC = Weight.new(g.rand(-1..1))
+
+          wL = Weight.new(g.rand(-1..1))
+          wLC = Weight.new(g.rand(-1..1))
+          wLD = Weight.new(g.rand(-1..1))
+          wLH = Weight.new(g.rand(-1..1))
+          w1L = Weight.new(g.rand(-1..1))
+          w2L = Weight.new(g.rand(-1..1))
+          w3L = Weight.new(g.rand(-1..1))
+          w4L = Weight.new(g.rand(-1..1))
+
+          # wN = Weight.new(g.rand(-1..1))
+          # wNC = Weight.new(g.rand(-1..1))
+          # wND = Weight.new(g.rand(-1..1))
+          # wNH = Weight.new(g.rand(-1..1))
+          # w1N = Weight.new(g.rand(-1..1))
+          # w2N = Weight.new(g.rand(-1..1))
+          # w3N = Weight.new(g.rand(-1..1))
+          # w4N = Weight.new(g.rand(-1..1))
+
+          # wM = Weight.new(g.rand(-1..1))
+          # #wNM = Weight.new(g.rand(-1..1))
+          # wAM = Weight.new(g.rand(-1..1))
+          # wBM = Weight.new(g.rand(-1..1))
+          # wKM = Weight.new(g.rand(-1..1))
+          # wLM = Weight.new(g.rand(-1..1))
+          # wME = Weight.new(g.rand(-1..1))
+          # wMF = Weight.new(g.rand(-1..1))
+          # wMG = Weight.new(g.rand(-1..1))
 
           # declare some neurons
           # first array are inputs to the neuron. second array are the corresponding weights.
 
           a = Neuron.new([i0,@i1,@i2,@i3,@i4], [wA,w1A,w2A,w3A,w4A])
           b = Neuron.new([i0,@i1,@i2,@i3,@i4], [wB,w1B,w2B,w3B,w4B])
-          c = Neuron.new([i0, a, b], [wC, wAC, wBC])
-          d = Neuron.new([i0, a, b], [wD, wAD, wBD])
-          e = Neuron.new([i0, c, d], [wE, wCE, wDE])
-          f = Neuron.new([i0, c, d], [wF, wCF, wDF])
-          g = Neuron.new([i0, c, d], [wG, wCG, wDG])
+          k = Neuron.new([i0,@i1,@i2,@i3,@i4], [wK,w1K,w2K,w3K,w4K])
+          l = Neuron.new([i0,@i1,@i2,@i3,@i4], [wL,w1L,w2L,w3L,w4L])
+          #n = Neuron.new([i0,@i1,@i2,@i3,@i4], [wN,w1N,w2N,w3N,w4N])
+          #m = Neuron.new([i0, a, b, k, l], [wM, wAM, wBM, wKM, wLM])
+          c = Neuron.new([i0, a, b, k, l], [wC, wAC, wBC, wKC, wLC])
+          d = Neuron.new([i0, a, k, b, l], [wD, wAD, wKD, wBD, wLD])
+          h = Neuron.new([i0, b, k, a, l], [wH, wBH, wKH, wAH, wLH])
+          e = Neuron.new([i0, c, d, h], [wE, wCE, wDE, wHE])
+          f = Neuron.new([i0, c, d, h], [wF, wCF, wDF, wHF])
+          g = Neuron.new([i0, c, d, h], [wG, wCG, wDG, wHG])
 
           # connect terminal neurons to performance testers
 
@@ -97,7 +148,7 @@ class NeuralNetwork
 
           # finally declare the network
 
-          @net = Network.new([pe, pf, pg], [a, b, c, d, e, f, g])                    
+          @net = Network.new([pe, pf, pg], [a, b, c, d, e, f, g, h])                    
 	end
 
 	##############################################
@@ -109,7 +160,7 @@ class NeuralNetwork
             y_data.push(y.row(i).to_a)
           end
           
-          @net.train(x_data, y_data, 1000)
+          @net.train(x_data, y_data, 450)
 	end
 
 	##############################################

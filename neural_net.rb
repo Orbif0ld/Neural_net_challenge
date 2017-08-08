@@ -1,5 +1,44 @@
 require 'set'
-require 'byebug'
+#require 'byebug'
+
+=begin
+
+This file implemets a neural net.
+
+In this implementation, neural nets are composed of
+
+- Inputs
+- Neurons
+- Performance testers attached to outputs
+
+Neurons in this code use 1.0/(1.0 + e**(-z)) as a threshold function, where z
+is weights*inputs to the neuron. Each neuron has one special input with value -1.
+The corresponding weight shifts the threshold function.
+
+The network also relies on the Weight class. Each instance of that class
+is a weight in the net that can be set or differentiated with respect to.
+
+Performance testers are attached to all outputs of the network.
+They provide a function that has a maximum when the net returns
+the desired values. Weight values are improved by hill-climbing
+on this function. (Basically calculating the gradient and following it.)
+
+The Network class wraps up the neural network and provides
+the output and train methods.
+
+
+The motiviation behind this implementation was to provide a "language"
+for building neural nets. I image that an implmenetation with loops instead
+of recursions and arrays instead of objects may be faster.
+
+This implementation could use a couple more upgrades:
+- provide utility methods that reduce the ammount of typing necessary
+  to construct a net
+- at initialization, determine which neurons depend (indirectly) on which
+  weights. this could be used to speed up differentiation.
+- add methods for easier testing of the network
+
+=end
 
 module Setable
 

@@ -1,6 +1,9 @@
 require './neural_net'
 require 'test/unit'
 
+# Note: sometimes tests fail as weights are random and
+# network can get stuck in local maxima
+
 class TestNeuralNet < Test::Unit::TestCase
 
   def test_input_accessors
@@ -213,6 +216,70 @@ class TestNeuralNet < Test::Unit::TestCase
     o = net.output
     #puts "output: #{o}"
     assert((o - 0).abs < 0.1)
+  end
 
+  def test_learn_double_output_identity
+    i0 = Input.new(-1, true)
+    i1 = Input.new(0)
+    i2 = Input.new(1)
+
+    g = Random.new
+    
+    w1A = Weight.new(g.rand(-1..1))
+    w2A = Weight.new(g.rand(-1..1))
+    wA = Weight.new(g.rand(-1..1))
+    w1B = Weight.new(g.rand(-1..1))
+    w2B = Weight.new(g.rand(-1..1))
+    wB = Weight.new(g.rand(-1..1))
+    wAC = Weight.new(g.rand(-1..1))
+    wBC = Weight.new(g.rand(-1..1))
+    wC = Weight.new(g.rand(-1..1))
+    wAD = Weight.new(g.rand(-1..1))
+    wBD = Weight.new(g.rand(-1..1))
+    wD = Weight.new(g.rand(-1..1))
+
+    a = Neuron.new([i0, i1, i2], [wA, w1A, w2A])
+    b = Neuron.new([i0, i1, i2], [wB, w1B, w2B])
+    c = Neuron.new([i0, a, b], [wC, wAC, wBC])
+    d = Neuron.new([i0, a, b], [wD, wAD, wBD])
+
+    p1 = PerformanceTester.new(c)
+    p2 = PerformanceTester.new(d)
+
+    net = Network.new([p1, p2], [a, b, c, d])
+
+    inputs = [[1, 0], [0, 1], [1, 1], [0, 0]]
+    desired_outputs = inputs
+
+    net.train(inputs, desired_outputs, 1000)
+
+    i1.set_value(0)
+    i2.set_value(1)
+    o1, o2 = net.output
+    #puts "output: #{o1}, #{o2}"
+    assert((o1 - 0).abs < 0.1)
+    assert((o2 - 1).abs < 0.1)
+
+    i1.set_value(1)
+    i2.set_value(0)
+    o1, o2 = net.output
+    #puts "output: #{o1}, #{o2}"
+    assert((o1 - 1).abs < 0.1)
+    assert((o2 - 0).abs < 0.1)
+
+    i1.set_value(1)
+    i2.set_value(1)
+    o1, o2 = net.output
+    #puts "output: #{o1}, #{o2}"
+    assert((o1 - 1).abs < 0.1)
+    assert((o2 - 1).abs < 0.1)
+
+    i1.set_value(0)
+    i2.set_value(0)
+    o1, o2 = net.output
+    #puts "output: #{o1}, #{o2}"
+    assert((o1 - 0).abs < 0.1)
+    assert((o2 - 0).abs < 0.1)
+    
   end
 end

@@ -201,7 +201,7 @@ class Neuron
   
   # threshold function
   def sigmoid(z)
-    1/(1 + Math::exp(-z))
+    1.0/(1.0 + Math::exp(-z))
   end
 end
 

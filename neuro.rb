@@ -124,6 +124,16 @@ class NeuralNetwork
           wMF = Weight.new(g.rand(-1..1))
           wMG = Weight.new(g.rand(-1..1))
 
+          wO = Weight.new(g.rand(-1..1))
+          wAO = Weight.new(g.rand(-1..1))
+          wBO = Weight.new(g.rand(-1..1))
+          wKO = Weight.new(g.rand(-1..1))
+          wLO = Weight.new(g.rand(-1..1))
+          wNO = Weight.new(g.rand(-1..1))
+          wOE = Weight.new(g.rand(-1..1))
+          wOF = Weight.new(g.rand(-1..1))
+          wOG = Weight.new(g.rand(-1..1))
+
           # declare some neurons
           # first array are inputs to the neuron. second array are the corresponding weights.
 
@@ -133,12 +143,13 @@ class NeuralNetwork
           l = Neuron.new([i0,@i1,@i2,@i3,@i4], [wL,w1L,w2L,w3L,w4L])
           n = Neuron.new([i0,@i1,@i2,@i3,@i4], [wN,w1N,w2N,w3N,w4N])
           m = Neuron.new([i0, a, b, k, l, n], [wM, wAM, wBM, wKM, wLM, wNM])
+          o = Neuron.new([i0, a, b, k, l, n], [wO, wAO, wBO, wKO, wLO, wNO])
           c = Neuron.new([i0, a, b, k, l, n], [wC, wAC, wBC, wKC, wLC, wNC])
           d = Neuron.new([i0, a, b, k, l, n], [wD, wAD, wBD, wKD, wLD, wND])
           h = Neuron.new([i0, a, b, k, l, n], [wH, wAH, wBH, wKH, wLH, wNH])
-          e = Neuron.new([i0, c, d, h, m], [wE, wCE, wDE, wHE, wME])
-          f = Neuron.new([i0, c, d, h, m], [wF, wCF, wDF, wHF, wMF])
-          g = Neuron.new([i0, c, d, h, m], [wG, wCG, wDG, wHG, wMG])
+          e = Neuron.new([i0, c, d, h, m, o], [wE, wCE, wDE, wHE, wME, wOE])
+          f = Neuron.new([i0, c, d, h, m, o], [wF, wCF, wDF, wHF, wMF, wOF])
+          g = Neuron.new([i0, c, d, h, m, o], [wG, wCG, wDG, wHG, wMG, wOG])
 
           # connect terminal neurons to performance testers
 
@@ -148,7 +159,8 @@ class NeuralNetwork
 
           # finally, declare the network
 
-          @net = Network.new([pe, pf, pg], [a, b, c, d, e, f, g, h, k, l, m, n])                  
+          @net = Network.new([pe, pf, pg],
+                             [a, b, c, d, e, f, g, h, k, l, m, n, o])                  
 	end
 
 	##############################################

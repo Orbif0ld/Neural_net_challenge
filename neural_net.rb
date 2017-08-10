@@ -1,5 +1,5 @@
 require 'set'
-#require 'byebug'
+require 'byebug'
 
 =begin
 
@@ -32,7 +32,7 @@ for building neural nets. I image that an implmenetation with loops instead
 of recursions and arrays instead of objects may be faster.
 
 This implementation could use a couple more upgrades:
-- provide utility methods that reduce the ammount of typing necessary
+- provide utility methods that reduce the amount of typing necessary
   to construct a net
 - at initialization, determine which neurons depend (indirectly) on which
   weights. this could be used to speed up differentiation.
@@ -129,6 +129,7 @@ class Neuron
     @output_computed = false
     @output = nil
     @derivatives = Hash.new
+    @connected_weights = find_connected_weights
   end
 
   # computes the output of this neuron
@@ -149,9 +150,12 @@ class Neuron
   # weight must be an instance of the Weight class
   # returns a number
   def compute_derivative(weight)
-    i = @weights.find_index(weight)
+    if not @connected_weights.include? weight
+      return 0
+    end
     z = @inputs.zip(@weights).map {|inpt, wt| inpt.output * wt.get_value}.reduce(:+)
     if @weights.include?(weight)
+      i = @weights.find_index(weight)
       return sigmoid(z) * (1 - sigmoid(z)) * @inputs[i].output
     else
       return sigmoid(z) * (1 - sigmoid(z)) *
@@ -160,9 +164,24 @@ class Neuron
     end
   end
 
+  # generates a set of weights which this neuron depends on indirectly
+  # returns a set of weights
+  def find_connected_weights
+    weights_set = Set.new
+    @weights.each {|w| weights_set.add(w)}
+    @inputs.each {|i| weights_set.merge(i.find_connected_weights) unless i.instance_of? Input}
+    return weights_set
+  end
+
+  # returns true if this neuron depends on weight, returns false otherwise
+  # paramater weight must be an instance of the Weight class
+  def depends_on(weight)
+    return @connected_weights.include? weight
+  end
+
   # looks up derivative if a value is cached,
   # otherwise computes the derivative and caches the value
-  # (I decdided to serparate the caching from the computation in this case)
+  # (I decided to serparate the caching from the computation here)
   def derivative(weight)
     if @derivatives.has_key?(weight)
       return @derivatives[weight]

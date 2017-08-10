@@ -40,7 +40,8 @@ class NeuralNetwork
 	  # the data set.
           
           # declare some inputs
-          
+
+          print "initializing network..."
           i0 = Input.new(-1, true) # this is a constant input that all my neurons use
           @i1 = Input.new
           @i2 = Input.new
@@ -160,11 +161,13 @@ class NeuralNetwork
           # finally, declare the network
 
           @net = Network.new([pe, pf, pg],
-                             [a, b, c, d, e, f, g, h, k, l, m, n, o])                  
+                             [a, b, c, d, e, f, g, h, k, l, m, n, o])
+          puts " done"
 	end
 
 	##############################################
 	def train(x, y)
+          print "training..."
           x_data = []
           y_data = []
           for i in (0...x.row_count) do
@@ -172,7 +175,8 @@ class NeuralNetwork
             y_data.push(y.row(i).to_a)
           end
           
-          @net.train(x_data, y_data, 450)
+          @net.train(x_data, y_data, 1000)
+          puts " done"
 	end
 
 	##############################################

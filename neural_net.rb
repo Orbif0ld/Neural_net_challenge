@@ -267,7 +267,6 @@ class Network
   end
 
   def performance_output
-    reset_cache
     @performance_testers.map {|p| p.output}.reduce(:+)
   end
 
@@ -286,14 +285,17 @@ class Network
   # inputs[i] must correspond to desired_outputs[i]
   def train(inputs, desired_outputs,
             max_iterations=500,
+            verbose=false,
             step_size=1.0)
     
     data = inputs.zip(desired_outputs)
     
     iterations = 0
-    performances = []
+    avg_performances = []
+    sample_condition = lambda {|i| i % (max_iterations/10.0).round == 0}
     
     while iterations < max_iterations
+      performance = []
       data.each {|inpts, outpts|
         # set up the inputs to the network
         #exclude inputs that are marked constant
@@ -307,16 +309,19 @@ class Network
         # use the new weights
         update
         reset_cache
+        performance.push(performance_output) if sample_condition.(iterations)
       }
-      # if iterations % max_iterations/10 == 0
-      #      puts "#{iterations}"
-      #end
-      if iterations % max_iterations/10 == 0
-        performances.push(performance_output) ## TODO: bad, just samples, fix later
+      avg_performances.
+        push(performance.reduce(:+)/performance.size) if sample_condition.(iterations)
+      
+      if verbose
+        puts  "iter #{iterations}: #{avg_performances.last}" if sample_condition.(iterations)
       end
+
       iterations += 1
+      
     end
-    return performances
+    return avg_performances
   end
 
   private

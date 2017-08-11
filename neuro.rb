@@ -168,7 +168,7 @@ class NeuralNetwork
 
 	##############################################
 	def train(x, y)
-          print "training... "
+          puts "training... "
           x_data = []
           y_data = []
           for i in (0...x.row_count) do
@@ -176,8 +176,7 @@ class NeuralNetwork
             y_data.push(y.row(i).to_a)
           end
           
-          @net.train(x_data, y_data, 450)
-          puts "done"
+          @net.train(x_data, y_data, 450, verbose=true)
 	end
 
 	##############################################

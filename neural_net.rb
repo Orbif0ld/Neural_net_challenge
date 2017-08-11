@@ -292,7 +292,8 @@ class Network
     
     iterations = 0
     avg_performances = []
-    sample_condition = lambda {|i| i % (max_iterations/10.0).round == 0}
+    sample_condition = lambda {|i| (i+1) % (max_iterations/10.0).round == 0}
+    end_condition = lambda {|i| i==(max_iterations-1)}
     
     while iterations < max_iterations
       performance = []
@@ -309,13 +310,18 @@ class Network
         # use the new weights
         update
         reset_cache
-        performance.push(performance_output) if sample_condition.(iterations)
+        performance.
+          push(performance_output) if (sample_condition.(iterations) or
+                                       end_condition.(iterations))
       }
+      if sample_condition.(iterations) or end_condition.(iterations)
       avg_performances.
-        push(performance.reduce(:+)/performance.size) if sample_condition.(iterations)
+          push(performance.reduce(:+)/performance.size)
+      end
       
       if verbose
-        puts  "iter #{iterations}: #{avg_performances.last}" if sample_condition.(iterations)
+        puts  "iter #{iterations+1}: #{avg_performances.last}" if sample_condition.(iterations)
+        puts "final (#{iterations+1}): #{avg_performances.last}" if end_condition.(iterations)
       end
 
       iterations += 1

@@ -176,7 +176,7 @@ class NeuralNetwork
             y_data.push(y.row(i).to_a)
           end
           
-          @net.train(x_data, y_data, 450, verbose=true)
+          @net.train(x_data, y_data, 450, verbose=true, step_size=0.2)
 	end
 
 	##############################################
